@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>6662c69b-c58a-451a-9f49-42820254acf5</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoGlassDesafioApi.Application\AutoGlassDesafioApi.Application.csproj" />
+    <ProjectReference Include="..\AutoGlassDesafioApi.Cross\AutoGlassDesafioApi.Cross.csproj" />
+  </ItemGroup>
+
+</Project>
