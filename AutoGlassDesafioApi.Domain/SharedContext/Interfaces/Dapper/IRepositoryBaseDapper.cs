@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoGlassDesafioApi.Domain.SharedContext.Interfaces.Dapper
 {   
-    public interface IRepositoryBaseRead<T, In>
+    public interface IRepositoryBaseDapper<T, In>
         where T : class
         where In : class
     {

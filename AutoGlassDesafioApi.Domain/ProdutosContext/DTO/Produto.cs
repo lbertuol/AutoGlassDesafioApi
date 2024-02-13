@@ -3,6 +3,7 @@ using AutoGlassDesafioApi.Domain.SharedContext.DTO;
 using FluentValidator.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,11 @@ namespace AutoGlassDesafioApi.Domain.ProdutosContext.DTO
 
         private Produto(int Id) : base(Id)
         {
-
+            this.Id = Id;
         }
 
-        public int Codigo { get; private set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int Codigo { get; }
         public string Descricao { get; private set; }
         public EnumSituacaoProduto Situacao {  get; private set; }
         public DateTime DataFabricacao { get; private set; }
@@ -29,6 +31,11 @@ namespace AutoGlassDesafioApi.Domain.ProdutosContext.DTO
         public string FornecedorCodigo { get; private set; }
         public string FornecedorDescricao { get; private set; }
         public string FornecedorCNPJ { get; private set; }
+
+        public void AlterarSituacaoProduto(EnumSituacaoProduto enumSituacaoProduto) 
+        { 
+            this.Situacao = enumSituacaoProduto;
+        }
     }
 
     public class ProdutoValidacao : IContract
@@ -43,10 +50,7 @@ namespace AutoGlassDesafioApi.Domain.ProdutosContext.DTO
                 .IsNotNullOrEmpty(produto.Descricao, "Descrição", "Informe a descrição do Produto!");
             Contract
                 .Requires()
-                .IsGreaterThan(produto.DataFabricacao, produto.DataValidade, "Data Fabricação", "Data de Fabricação não pode ser maior que a data de Validade");
-            Contract
-                .Requires()
-                .IsLowerThan(produto.DataValidade, produto.DataFabricacao, "Data Validade", "Data de Validade não pode ser menor que a data de Fabricação");
+                .IsGreaterThan(produto.DataValidade, produto.DataFabricacao, "Data Fabricação", "Data de Fabricação não pode ser maior ou igual que a data de Validade");            
         }
     }
 }

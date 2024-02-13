@@ -10,8 +10,7 @@ namespace AutoGlassDesafioApi.Domain.SharedContext.Filters
     {
         public int Pagina { get; set; }
         public int PorPagina { get; set; }
-        public string Campo { get; set; }
-        public string Valor { get; set; }
-        public string Tipo { get; set; }
+        public string CampoFiltro { get; set; }
+        public string ValorFiltro { get; set; }        
     }
 }

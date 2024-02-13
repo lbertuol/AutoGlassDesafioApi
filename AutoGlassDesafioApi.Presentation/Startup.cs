@@ -1,3 +1,7 @@
+using AutoGlassDesafioApi.Application.SharedContext.Mappers;
+using AutoGlassDesafioApi.Cross.IOC;
+using AutoGlassDesafioApi.Presentation.SharedContext.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +30,19 @@ namespace AutoGlassDesafioApi.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettingsHelper>(appSettingsSection);
+
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            var appSettings = appSettingsSection.Get<AppSettingsHelper>();
+
+            IOCManager.Register(appSettings.ConnectionString, services);
+
+            services.AddAutoMapper(typeof(AutoMapperConfig));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -44,6 +61,12 @@ namespace AutoGlassDesafioApi.Presentation
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoGlassDesafioApi.Presentation v1"));
             }
 
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -53,6 +76,11 @@ namespace AutoGlassDesafioApi.Presentation
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.Run(async context =>
+            {
+                context.Response.Redirect("swagger/index.html");
             });
         }
     }

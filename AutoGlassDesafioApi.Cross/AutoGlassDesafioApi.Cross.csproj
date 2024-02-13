@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AutoGlassDesafioApi.Application\AutoGlassDesafioApi.Application.csproj" />
+    <ProjectReference Include="..\AutoGlassDesafioApi.Infrastructure\AutoGlassDesafioApi.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

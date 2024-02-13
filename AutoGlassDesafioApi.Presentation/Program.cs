@@ -21,6 +21,8 @@ namespace AutoGlassDesafioApi.Presentation
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseIISIntegration();
+                    webBuilder.UseIIS();
                 });
     }
 }

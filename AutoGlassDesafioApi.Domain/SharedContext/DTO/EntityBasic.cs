@@ -15,7 +15,7 @@ namespace AutoGlassDesafioApi.Domain.SharedContext.DTO
 
         public EntityBasic(int Id)
         {
-
+            this.DataCriacao = DateTime.Now;
         }
 
         public int Id { get; set; }

@@ -10,8 +10,7 @@ namespace AutoGlassDesafioApi.Domain.ProdutosContext.DTO
     public partial class Produto
     {
         public static Produto Create(
-            int id,
-            int codigo,
+            int id,            
             string descricao,
             DateTime dataFabricacao,
             DateTime dataValidade,
@@ -21,8 +20,7 @@ namespace AutoGlassDesafioApi.Domain.ProdutosContext.DTO
             ) =>
             new Produto(0)
             {
-                Id = id,
-                Codigo = codigo,
+                Id = id,                
                 Descricao = descricao,
                 DataFabricacao = dataFabricacao,    
                 DataValidade = dataValidade,

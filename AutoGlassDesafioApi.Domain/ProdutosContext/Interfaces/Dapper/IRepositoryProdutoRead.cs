@@ -1,5 +1,6 @@
 ﻿using AutoGlassDesafioApi.Domain.ProdutosContext.DTO;
 using AutoGlassDesafioApi.Domain.ProdutosContext.Filtros;
+using AutoGlassDesafioApi.Domain.ProdutosContext.Models;
 using AutoGlassDesafioApi.Domain.SharedContext.Interfaces.Dapper;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoGlassDesafioApi.Domain.ProdutosContext.Interfaces.Dapper
 {   
-    public interface IRepositoryProdutoRead : IRepositoryBaseRead<Produto, FilterProdutoInput>
+    public interface IRepositoryProdutoRead : IRepositoryBaseDapper<ProdutoOutput, FilterProdutoInput>
     {
 
     }
