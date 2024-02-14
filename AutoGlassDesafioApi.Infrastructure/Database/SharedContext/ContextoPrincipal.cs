@@ -23,23 +23,30 @@ namespace AutoGlassDesafioApi.Infrastructure.Database.SharedContext
         public ContextoPrincipal(DbContextOptions<ContextoPrincipal> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
-        }        
+        }
+
+        public ContextoPrincipal(DbContextOptions<ContextoPrincipal> options) : base(options)
+        {
+           
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var conexao = ConexaoBanco();
+            if (_configuration != null) 
+            { 
+                var conexao = ConexaoBanco();
             
-            optionsBuilder
-                .UseSqlServer(conexao,
-                sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 10,
-                        maxRetryDelay: TimeSpan.FromSeconds(5),
-                        errorNumbersToAdd: null);
-                })
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
+                optionsBuilder
+                    .UseSqlServer(conexao,
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(5),
+                            errorNumbersToAdd: null);
+                    })
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
             base.OnConfiguring(optionsBuilder);
         }
 

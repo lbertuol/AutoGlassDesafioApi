@@ -63,10 +63,23 @@ namespace AutoGlassDesafioApi.Presentation.ProdutoContext.Controller
             return new JsonResult(retorno);
         }
 
-        [HttpPost("Incluir")]
-        public async Task<IActionResult> Incluir([FromBody] ProdutoInput model)
+        [HttpGet("teste")]
+        public async Task<IActionResult> teste()
         {
-            return await Salvar(model);
+            return Ok();
+        }
+
+        [HttpPost("Incluir")]        
+        public async Task<IActionResult> Incluir([FromBody] ProdutoInput produtoInput)
+        {
+            return await Salvar(produtoInput);            
+        }
+
+        [HttpPost("incluir2")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> incluir2([FromBody] int id)
+        {
+            return Ok(id);
         }
 
         [HttpPut("Editar")]

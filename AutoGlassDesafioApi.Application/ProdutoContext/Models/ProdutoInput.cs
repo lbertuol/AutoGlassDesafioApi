@@ -12,7 +12,7 @@ namespace AutoGlassDesafioApi.Application.ProdutoContext.Models
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public EnumSituacaoProduto Situacao { get; set; }
+        public int Situacao { get; set; }
         public DateTime DataFabricacao { get; set; }
         public DateTime DataValidade { get; set; }
         public string FornecedorCodigo { get; set; }
