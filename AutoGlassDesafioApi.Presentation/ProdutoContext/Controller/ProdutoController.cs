@@ -20,7 +20,7 @@ namespace AutoGlassDesafioApi.Presentation.ProdutoContext.Controller
             _serviceApplicationProduto = serviceApplicationProduto;
         }
 
-        private async Task<IActionResult> Salvar(ProdutoInput model)
+        private async Task<IActionResult> SalvarAsync(ProdutoInput model)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace AutoGlassDesafioApi.Presentation.ProdutoContext.Controller
 
         [HttpPost("RetornarPorCodigo")]
         [ProducesResponseType(typeof(ProdutoOutput), 200)]        
-        public async Task<IActionResult> RetornarPorCodigo([FromBody] ParamCodigoInput paramCodigoInput)
+        public async Task<IActionResult> RetornarPorCodigoAsync([FromBody] ParamCodigoInput paramCodigoInput)
         {
             var retorno = await _serviceApplicationProduto.RetornarPorCodigoAsync(paramCodigoInput.Codigo);
             if (retorno == null)            
@@ -53,7 +53,7 @@ namespace AutoGlassDesafioApi.Presentation.ProdutoContext.Controller
 
         [HttpPost("RetornarVarios")]
         [ProducesResponseType(typeof(ProdutoOutput[]), 200)]
-        public async Task<IActionResult> RetornarVarios(FilterProdutoInput filtros)
+        public async Task<IActionResult> RetornarVariosAsync(FilterProdutoInput filtros)
         {
             var retorno = await _serviceApplicationProduto.ListarAsync(filtros);
 
@@ -64,22 +64,22 @@ namespace AutoGlassDesafioApi.Presentation.ProdutoContext.Controller
         }
         
         [HttpPost("Incluir")]        
-        public async Task<IActionResult> Incluir([FromBody] ProdutoInput produtoInput)
+        public async Task<IActionResult> IncluirAsync([FromBody] ProdutoInput produtoInput)
         {
-            return await Salvar(produtoInput);            
+            return await SalvarAsync(produtoInput);            
         }        
 
         [HttpPut("Editar")]
-        public async Task<IActionResult> Editar([FromBody] ProdutoInput model)
+        public async Task<IActionResult> EditarAsync([FromBody] ProdutoInput model)
         {
             if (model.Id == 0)            
                 return BadRequest("Obrigatório informar o Id do Produto.");            
 
-            return await Salvar(model);
+            return await SalvarAsync(model);
         }
 
         [HttpDelete("Excluir")]
-        public async Task<IActionResult> Excluir([FromBody] ParamIdInput ParamIdModel)
+        public async Task<IActionResult> ExcluirAsync([FromBody] ParamIdInput ParamIdModel)
         {
             try
             {

@@ -91,9 +91,34 @@ namespace TestProject.ProdutoContext.TestesApi
         [Fact]
         public async Task TestarExcluirPorId()
         {
+            var modelInclusao = new ProdutoInput
+            {
+                Id = 0,
+                Descricao = $"Produto Novo 01 {Guid.NewGuid()}",
+                DataFabricacao = DateTime.Now,
+                DataValidade = DateTime.Now.AddDays(1),
+                FornecedorCodigo = "102030",
+                FornecedorDescricao = "Fornecedor Produto",
+                FornecedorCNPJ = "12345678901234",
+                Situacao = 1
+            };
+
+            var responseInclusao = await _produtoApi.Incluir(modelInclusao);
+
+            var modelCons = new FilterProdutoInput
+            {
+                PorPagina = 10,
+                Pagina = 1,
+                CampoFiltro = "",
+                ValorFiltro = ""
+            };
+
+            var responseCons = await _produtoApi.RetornarVarios(modelCons);
+            var registroExclusao = responseCons.Content.FirstOrDefault();            
+
             var model = new ParamIdInput
             {
-                Id = 5
+                Id = registroExclusao.Id
             };
 
             var response = await _produtoApi.Excluir(model);
@@ -111,9 +136,9 @@ namespace TestProject.ProdutoContext.TestesApi
             var model = new ProdutoInput
             {
                 Id = 0,
-                Descricao = "",
+                Descricao = $"Produto Novo 01 {Guid.NewGuid()}",
                 DataFabricacao = DateTime.Now,
-                DataValidade = DateTime.Now,
+                DataValidade = DateTime.Now.AddDays(10),
                 FornecedorCodigo = "102030",
                 FornecedorDescricao = "Fornecedor Produto",
                 FornecedorCNPJ = "12345678901234",
@@ -127,26 +152,74 @@ namespace TestProject.ProdutoContext.TestesApi
             var resultado = response.Content;            
         }
 
-        [Fact]        
-        public async Task TestarEdicao()
+        [Theory]
+        [ClassData(typeof(ProdClassData))]
+        public async Task TestarInclusaoFalhaData(List<ProdutoInput> prods)
         {
             var model = new ProdutoInput
             {
-                Id = 1,
-                Descricao = "",
+                Id = 0,
+                Descricao = $"Produto Novo 01 {Guid.NewGuid()}",
                 DataFabricacao = DateTime.Now,
-                DataValidade = DateTime.Now,
+                DataValidade = DateTime.Now.AddDays(-1),
                 FornecedorCodigo = "102030",
                 FornecedorDescricao = "Fornecedor Produto",
                 FornecedorCNPJ = "12345678901234",
                 Situacao = 1
             };
 
-            var response = await _produtoApi.Editar(model);
-            response.StatusCode.Should().Be(HttpStatusCode.OK,
-                $"* Ocorreu uma falha: Status Code esperado (200, OK) diferente do resultado gerado *");
+            var response = await _produtoApi.Incluir(model);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest,
+                $"* Não retornou BadRequest. Não pode aceitar inclusão de Produto com data de fabricação maior ou igual a Validade *");
 
             var resultado = response.Content;
+        }
+
+        [Fact]        
+        public async Task TestarEdicao()
+        {
+            var modelInclusao = new ProdutoInput
+            {
+                Id = 0,
+                Descricao = $"Produto Novo 01 {Guid.NewGuid()}",
+                DataFabricacao = DateTime.Now,
+                DataValidade = DateTime.Now.AddDays(1),
+                FornecedorCodigo = "102030",
+                FornecedorDescricao = "Fornecedor Produto",
+                FornecedorCNPJ = "12345678901234",
+                Situacao = 1
+            };
+
+            var responseInclusao = await _produtoApi.Incluir(modelInclusao);
+
+            var modelCons = new FilterProdutoInput
+            {
+                PorPagina = 10,
+                Pagina = 1,
+                CampoFiltro = "",
+                ValorFiltro = ""
+            };
+
+            var responseCons = await _produtoApi.RetornarVarios(modelCons);
+            var registroEdicao = responseCons.Content.FirstOrDefault();
+
+            var modelEdicao = new ProdutoInput
+            {
+                Id = registroEdicao.Id,
+                Descricao = $"Produto Edicao 01 {Guid.NewGuid()}",
+                DataFabricacao = registroEdicao.DataFabricacao,
+                DataValidade = registroEdicao.DataValidade,
+                FornecedorCodigo = registroEdicao.FornecedorCodigo,
+                FornecedorDescricao = registroEdicao.FornecedorDescricao,
+                FornecedorCNPJ = registroEdicao.FornecedorCNPJ,
+                Situacao = 1
+            };
+
+            var responseEdicao = await _produtoApi.Editar(modelEdicao);
+            responseEdicao.StatusCode.Should().Be(HttpStatusCode.OK,
+                $"* Ocorreu uma falha: Status Code esperado (200, OK) diferente do resultado gerado *");
+
+            var resultado = responseEdicao.Content;
         }
 
         public class ProdClassData : IEnumerable<object[]>

@@ -82,26 +82,6 @@ namespace AutoGlassDesafioApi.Infrastructure.Database.ProdutosContext.Repository
             }
 
             return sb.ToString();
-        }
-
-        private string RetornarIds(List<int> ids)
-        {
-            string valor = "";
-            if (ids.Count > 0)
-            {
-                valor = "";
-                int contador = 1;
-
-                foreach (var item in ids)
-                {
-                    if (contador == 1)
-                        valor = valor + item.ToString();
-                    else
-                        valor = valor + "," + item.ToString();
-                    contador++;
-                }
-            }
-            return valor;
-        }
+        }        
     }
 }

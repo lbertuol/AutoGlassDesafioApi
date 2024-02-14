@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace AutoGlassDesafioApi.Domain.ProdutosContext.Models
 {
     public class ProdutoOutput : OutputBasic
-    {        
+    {
+        public int Id { get; set; }
         public int Codigo { get; set; }
         public string Descricao { get; set; }
         public EnumSituacaoProduto Situacao { get; set; }
