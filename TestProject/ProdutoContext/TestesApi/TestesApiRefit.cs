@@ -48,10 +48,7 @@ namespace TestProject.ProdutoContext.TestesApi
 
             _produtoApi = RestService.For<IProdutoAPI>(
                 new HttpClient()
-                { BaseAddress = new Uri(configuration["UrlWebAppTestes"]) });
-
-            //_produtoApi = RestService.For<IProdutoAPI>(
-            //    configuration["UrlWebAppTestes"]);
+                { BaseAddress = new Uri(configuration["UrlWebAppTestes"]) });            
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
